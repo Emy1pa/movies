@@ -1,8 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./home.css";
 import NewestMovies from "./NewestMovies";
-
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 const HomePage = () => {
+  const [userRole, setUserRole] = useState(null);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        const role = decodedToken.role;
+        setUserRole(role);
+      } catch (error) {
+        console.error("Error decoding token:", error);
+      }
+    }
+  }, []);
+  const handleButtonClick = () => {
+    if (userRole === "admin") {
+      navigate("/adminDashboard");
+    } else if (userRole === "client") {
+      navigate("/dashboard");
+    } else {
+      navigate("/login");
+    }
+  };
   return (
     <>
       <div className="home-page">
@@ -28,7 +52,13 @@ const HomePage = () => {
               <p>Enjoy crystal-clear video and audio quality</p>
             </div>
           </div>
-          <button className="cta-button">Start Your Cinematic Journey</button>
+          <button className="cta-button" onClick={handleButtonClick}>
+            {userRole === "admin"
+              ? "Go to your dashboard"
+              : userRole === "client"
+              ? "Go to your dashboard"
+              : "Start Your Cinematic Journey"}
+          </button>
         </div>
       </div>
       <div>
