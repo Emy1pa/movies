@@ -13,6 +13,8 @@ const MovieComments = ({ movieId }) => {
 
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("authToken");
+  const userRole = localStorage.getItem("userRole") || "";
+  const isClient = userRole === "client";
 
   useEffect(() => {
     fetchComments();
@@ -35,7 +37,7 @@ const MovieComments = ({ movieId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!newComment.trim()) return;
+    if (!isClient || !newComment.trim()) return;
 
     try {
       setLoading(true);
@@ -61,6 +63,8 @@ const MovieComments = ({ movieId }) => {
   };
 
   const handleDelete = async (commentId) => {
+    if (!isClient) return;
+
     if (!window.confirm("Are you sure you want to delete this comment?")) {
       return;
     }
@@ -83,6 +87,8 @@ const MovieComments = ({ movieId }) => {
   };
 
   const handleEdit = async (commentId) => {
+    if (!isClient) return;
+
     if (editingId === commentId) {
       if (editContent.trim().length < 5) {
         setError("Comment must be at least 5 characters long");
@@ -128,28 +134,36 @@ const MovieComments = ({ movieId }) => {
         Comments ({comments.length})
       </h3>
 
-      <form onSubmit={handleSubmit} className="comment-form">
-        <textarea
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          placeholder="Write a comment...  (5-100 characters)"
-          maxLength="100"
-          minLength="5"
-        />
-        <button
-          type="submit"
-          disabled={loading || newComment.trim().length < 5}
-        >
-          {loading ? "Posting..." : "Post Comment"}
-        </button>
-      </form>
+      {isClient && (
+        <form onSubmit={handleSubmit} className="comment-form">
+          <textarea
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Write a comment...  (5-100 characters)"
+            maxLength="100"
+            minLength="5"
+          />
+          <button
+            type="submit"
+            disabled={loading || newComment.trim().length < 5}
+          >
+            {loading ? "Posting..." : "Post Comment"}
+          </button>
+        </form>
+      )}
+
+      {!isClient && (
+        <div className="comments-notice">
+          Only registered clients can post comments
+        </div>
+      )}
 
       {error && <div className="error-message">{error}</div>}
 
       <div className="comments-list">
         {comments.length === 0 ? (
           <p className="no-comments">
-            No comments yet. Be the first to comment!
+            No comments yet. {isClient ? "Be the first to comment!" : ""}
           </p>
         ) : (
           comments.map((comment) => (
@@ -165,7 +179,7 @@ const MovieComments = ({ movieId }) => {
                 <p className="comment-content">{comment.content}</p>
               )}
 
-              {comment.user === userId && (
+              {isClient && comment.user === userId && (
                 <div className="comment-actions">
                   {editingId === comment._id ? (
                     <>

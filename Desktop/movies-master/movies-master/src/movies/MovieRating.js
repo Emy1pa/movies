@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Star, StarHalf } from "lucide-react";
 import axios from "axios";
 import "./rate.css";
+
 const MovieRating = ({ movieId }) => {
   const [rating, setRating] = useState(null);
   const [hoveredRating, setHoveredRating] = useState(0);
@@ -13,6 +14,8 @@ const MovieRating = ({ movieId }) => {
 
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("authToken");
+  const userRole = localStorage.getItem("userRole") || "";
+  const isClient = userRole === "client";
 
   const api = axios.create({
     baseURL: "http://localhost:8800/api",
@@ -28,13 +31,11 @@ const MovieRating = ({ movieId }) => {
       setLoading(true);
       setError(null);
 
-      // Fetch all ratings for the movie
       const allRatingsResponse = await api.get("/rates");
       const movieRatings = allRatingsResponse.data.filter(
         (rate) => rate.movie === movieId
       );
 
-      // Calculate average rating
       if (movieRatings.length > 0) {
         const total = movieRatings.reduce(
           (sum, rate) => sum + rate.ratingValue,
@@ -44,11 +45,12 @@ const MovieRating = ({ movieId }) => {
         setTotalRatings(movieRatings.length);
       }
 
-      // Check if user has already rated
-      const userRating = movieRatings.find((rate) => rate.user === userId);
-      if (userRating) {
-        setUserRating(userRating);
-        setRating(userRating.ratingValue);
+      if (isClient) {
+        const userRating = movieRatings.find((rate) => rate.user === userId);
+        if (userRating) {
+          setUserRating(userRating);
+          setRating(userRating.ratingValue);
+        }
       }
 
       setLoading(false);
@@ -60,17 +62,17 @@ const MovieRating = ({ movieId }) => {
   };
 
   const handleRating = async (value) => {
+    if (!isClient) return;
+
     try {
       setError(null);
       setLoading(true);
 
       if (userRating) {
-        // Update existing rating
         await api.put(`/rates/${userRating._id}`, {
           ratingValue: value,
         });
       } else {
-        // Create new rating
         await api.post("/rates", {
           user: userId,
           movie: movieId,
@@ -79,7 +81,7 @@ const MovieRating = ({ movieId }) => {
       }
 
       setRating(value);
-      await fetchRatings(); // Refresh ratings
+      await fetchRatings();
     } catch (err) {
       setError(err.response?.data?.message || "Failed to submit rating");
       console.error("Error submitting rating:", err);
@@ -89,11 +91,15 @@ const MovieRating = ({ movieId }) => {
   };
 
   const handleMouseEnter = (value) => {
-    setHoveredRating(value);
+    if (isClient) {
+      setHoveredRating(value);
+    }
   };
 
   const handleMouseLeave = () => {
-    setHoveredRating(0);
+    if (isClient) {
+      setHoveredRating(0);
+    }
   };
 
   const renderStars = (displayRating) => {
@@ -108,11 +114,11 @@ const MovieRating = ({ movieId }) => {
           key={value}
           className={`star-button ${filled ? "filled" : ""} ${
             halfFilled ? "half-filled" : ""
-          }`}
+          } ${!isClient ? "disabled" : ""}`}
           onMouseEnter={() => handleMouseEnter(value)}
           onMouseLeave={handleMouseLeave}
           onClick={() => handleRating(value)}
-          disabled={loading}
+          disabled={loading || !isClient}
         >
           {halfFilled ? (
             <StarHalf className="star-icon" />
@@ -127,7 +133,7 @@ const MovieRating = ({ movieId }) => {
   return (
     <div className="movie-rating">
       <div className="rating-header">
-        <h3>Rate this Movie</h3>
+        <h3>Movie Rating</h3>
         {averageRating > 0 && (
           <div className="average-rating">
             <span className="rating-value">{averageRating.toFixed(1)}</span>
@@ -140,9 +146,15 @@ const MovieRating = ({ movieId }) => {
         {renderStars(hoveredRating || rating || 0)}
       </div>
 
+      {!isClient && (
+        <div className="rating-notice">
+          Only registered clients can rate movies
+        </div>
+      )}
+
       {error && <div className="rating-error">{error}</div>}
 
-      {rating && (
+      {rating && isClient && (
         <div className="user-rating">
           Your rating: <span className="rating-value">{rating}</span>/10
         </div>

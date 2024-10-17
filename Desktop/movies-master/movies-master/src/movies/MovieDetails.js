@@ -7,6 +7,7 @@ import { FaHeart } from "react-icons/fa";
 import MovieComments from "../dashboard/MovieComments";
 import MovieRating from "./MovieRating";
 import RelatedMovies from "./RelatedMovies";
+import { jwtDecode } from "jwt-decode";
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -14,6 +15,7 @@ const MovieDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -30,8 +32,21 @@ const MovieDetails = () => {
       }
     };
 
+    const getUserRole = () => {
+      const token = localStorage.getItem("authToken");
+      if (token) {
+        try {
+          const decodedToken = jwtDecode(token);
+          setUserRole(decodedToken.role);
+        } catch (error) {
+          console.error("Error decoding token:", error);
+        }
+      }
+    };
+
     fetchMovie();
     checkIfFavorite();
+    getUserRole();
   }, [id]);
 
   const checkIfFavorite = async () => {
@@ -58,11 +73,10 @@ const MovieDetails = () => {
   };
 
   const handleFavoriteToggle = async () => {
+    if (userRole !== "client") return;
+
     const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("authToken");
-    console.log("User ID:", userId);
-
-    console.log("Token:", token);
 
     try {
       if (isFavorite) {
@@ -94,6 +108,8 @@ const MovieDetails = () => {
   if (error) return <div className="error">{error}</div>;
   if (!movie) return <div className="error">Movie not found</div>;
 
+  const isClient = userRole === "client";
+
   return (
     <div className="movie-details-container">
       <Link to="/movies" className="back-button">
@@ -124,22 +140,27 @@ const MovieDetails = () => {
           </p>
 
           <div
-            className="favorite-icon"
+            className={`favorite-icon ${!isClient ? "disabled" : ""}`}
             onClick={handleFavoriteToggle}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: isClient ? "pointer" : "not-allowed" }}
+            title={!isClient ? "Only clients can add favorites" : ""}
           >
             {isFavorite ? (
-              <FaHeart style={{ color: "red" }} />
+              <FaHeart style={{ color: isClient ? "red" : "#ccc" }} />
             ) : (
-              <Heart style={{ color: "gray" }} />
-            )}{" "}
+              <Heart style={{ color: isClient ? "gray" : "#ccc" }} />
+            )}
           </div>
-          <MovieRating movieId={movie._id} />
-          <Link to={`/screenings/${movie._id}`} className="book-now-button">
-            Book Now
-          </Link>
+
+          {isClient && (
+            <Link to={`/screenings/${movie._id}`} className="book-now-button">
+              Book Now
+            </Link>
+          )}
         </div>
       </div>
+
+      <MovieRating movieId={movie._id} />
       <MovieComments movieId={movie._id} />
       <RelatedMovies currentMovie={movie} />
     </div>

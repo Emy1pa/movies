@@ -16,7 +16,14 @@
 .comment-form {
   margin-bottom: 2rem;
 }
-
+.comments-notice {
+  color: #666;
+  font-style: italic;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
 .comment-form textarea {
   width: 100%;
   min-height: 100px;

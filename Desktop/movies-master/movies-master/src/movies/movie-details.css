@@ -116,6 +116,26 @@ body {
   background-color: var(--hover-color);
 }
 
+.favorite-icon.disabled {
+  opacity: 0.6;
+  position: relative;
+}
+
+.favorite-icon.disabled:hover::after {
+  content: "Only clients can add favorites";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  margin-bottom: 5px;
+}
 @media (max-width: 768px) {
   .movie-details-content {
     flex-direction: column;
