@@ -37,6 +37,8 @@ const MovieDetails = () => {
       if (token) {
         try {
           const decodedToken = jwtDecode(token);
+          localStorage.setItem("userRole", decodedToken.role);
+
           setUserRole(decodedToken.role);
         } catch (error) {
           console.error("Error decoding token:", error);
@@ -64,7 +66,7 @@ const MovieDetails = () => {
       const favorites = response.data;
 
       const favoriteMovie = favorites.find(
-        (fav) => fav.movie.toString() === id
+        (fav) => fav.movie?.toString() === id
       );
       setIsFavorite(!!favoriteMovie);
     } catch (err) {
@@ -97,11 +99,13 @@ const MovieDetails = () => {
             },
           }
         );
+
         setIsFavorite(true);
       }
     } catch (err) {
       console.error("Error toggling favorite:", err);
     }
+    console.log("Sending favorite:", { user: userId, movie: id });
   };
 
   if (loading) return <div className="loading">Loading...</div>;

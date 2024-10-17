@@ -139,7 +139,7 @@ const MovieComments = ({ movieId }) => {
           <textarea
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Write a comment...  (5-100 characters)"
+            placeholder="Write a comment... (5-100 characters)"
             maxLength="100"
             minLength="5"
           />
@@ -169,33 +169,31 @@ const MovieComments = ({ movieId }) => {
           comments.map((comment) => (
             <div key={comment._id} className="comment">
               {editingId === comment._id ? (
-                <textarea
-                  value={editContent}
-                  onChange={(e) => setEditContent(e.target.value)}
-                  className="edit-textarea"
-                  maxLength={100}
-                />
+                <>
+                  <textarea
+                    value={editContent}
+                    onChange={(e) => setEditContent(e.target.value)}
+                    className="edit-textarea"
+                    maxLength={100}
+                  />
+                  <div className="comment-actions">
+                    <button
+                      onClick={() => handleEdit(comment._id)}
+                      className="save-btn"
+                      disabled={editContent.trim().length < 5}
+                    >
+                      Save
+                    </button>
+                    <button onClick={cancelEdit} className="cancel-btn">
+                      Cancel
+                    </button>
+                  </div>
+                </>
               ) : (
-                <p className="comment-content">{comment.content}</p>
-              )}
-
-              {isClient && comment.user === userId && (
-                <div className="comment-actions">
-                  {editingId === comment._id ? (
-                    <>
-                      <button
-                        onClick={() => handleEdit(comment._id)}
-                        className="save-btn"
-                        disabled={editContent.trim().length < 5}
-                      >
-                        Save
-                      </button>
-                      <button onClick={cancelEdit} className="cancel-btn">
-                        Cancel
-                      </button>
-                    </>
-                  ) : (
-                    <>
+                <>
+                  <p className="comment-content">{comment.content}</p>
+                  {isClient && comment.user === userId && (
+                    <div className="comment-actions">
                       <button
                         onClick={() => handleEdit(comment._id)}
                         className="edit-btn"
@@ -210,9 +208,9 @@ const MovieComments = ({ movieId }) => {
                       >
                         <Trash2 size={16} />
                       </button>
-                    </>
+                    </div>
                   )}
-                </div>
+                </>
               )}
             </div>
           ))

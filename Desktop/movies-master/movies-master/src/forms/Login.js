@@ -63,6 +63,7 @@ export default function Login({ setIsLoggedIn }) {
         }
         localStorage.setItem("authToken", token);
         localStorage.setItem("userId", userId);
+        localStorage.setItem("userRole", role); // Add this line to store the role
 
         setIsLoggedIn(true);
 
