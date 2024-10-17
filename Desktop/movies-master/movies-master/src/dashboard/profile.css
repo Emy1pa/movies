@@ -1,0 +1,174 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap");
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.user-profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.profile-section {
+  width: 100%;
+  max-width: 400px;
+}
+
+.profile-card {
+  background-color: var(--card-background);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform var(--transition-speed);
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
+}
+
+.profile-content {
+  padding: 2rem;
+  text-align: center;
+}
+
+.profile-image-container {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 1.5rem;
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--primary-color);
+}
+
+.profile-image-form {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.upload-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color var(--transition-speed);
+}
+
+.upload-icon:hover {
+  background-color: var(--hover-color);
+}
+
+.upload-icon svg {
+  color: var(--text-color);
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.upload-btn {
+  display: none;
+}
+
+.profile-username {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.profile-bio {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.user-info {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.info-item svg {
+  margin-right: 0.5rem;
+  color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.info-item span {
+  font-size: 0.9rem;
+  word-break: break-word;
+}
+
+.user-date-joined {
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.update-profile-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: background-color var(--transition-speed);
+  width: 100%;
+  margin-top: 10px;
+}
+
+.update-profile-btn:hover {
+  background-color: var(--hover-color);
+}
+
+@media (max-width: 480px) {
+  .profile-card {
+    max-width: 100%;
+  }
+
+  .profile-image-container {
+    width: 120px;
+    height: 120px;
+  }
+
+  .profile-username {
+    font-size: 1.25rem;
+  }
+
+  .profile-bio {
+    font-size: 0.9rem;
+  }
+
+  .info-item {
+    font-size: 0.9rem;
+  }
+
+  .user-info {
+    padding: 0 1rem;
+  }
+}

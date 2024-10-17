@@ -1,0 +1,200 @@
+:root {
+  --primary-color: #e50914;
+  --secondary-color: #221f1f;
+  --text-color: #ffffff;
+  --background-color: #000000;
+  --input-background: #333333;
+  --input-text: #8c8c8c;
+  --card-background: #221f1f;
+  --hover-color: #ff0f1b;
+  --border-radius: 4px;
+  --transition-speed: 0.3s;
+}
+.available-screenings-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.screening-card {
+  background-color: var(--card-background);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: 0 10px 20px var(--shadow-color);
+  transition: transform var(--transition-speed),
+    box-shadow var(--transition-speed);
+  display: flex;
+  flex-direction: column;
+}
+
+.screening-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px var(--shadow-color);
+}
+
+.screening-card h3 {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  margin: 0 0 1rem;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 0.5rem;
+}
+
+.screening-card p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.reserve-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color var(--transition-speed),
+    transform var(--transition-speed);
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: auto;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.reserve-button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+/* Reservation Styles */
+.reservation-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--card-background);
+  border-radius: var(--border-radius);
+  box-shadow: 0 10px 20px var(--shadow-color);
+}
+
+.reservation-title {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+}
+
+.screening-info {
+  background-color: var(--background-color);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.screening-info p {
+  margin: 0.5rem 0;
+}
+
+.seats-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.seat-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.seat {
+  width: 40px;
+  height: 40px;
+  margin: 0 0.5rem;
+  background-color: var(--background-color);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--transition-speed);
+  font-weight: bold;
+}
+
+.seat:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.seat.selected {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.seat.occupied {
+  background-color: var(--primary-dark);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.reservation-summary {
+  background-color: var(--background-color);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.confirm-button {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color var(--transition-speed);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.confirm-button:hover {
+  background-color: var(--accent-dark);
+}
+
+.confirm-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.loading,
+.error {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 3rem;
+}
+
+.error {
+  color: #f44336;
+}
+
+@media (max-width: 768px) {
+  .available-screenings-container {
+    grid-template-columns: 1fr;
+  }
+
+  .reservation-container {
+    padding: 1rem;
+  }
+
+  .seat {
+    width: 35px;
+    height: 35px;
+    margin: 0 0.25rem;
+  }
+}

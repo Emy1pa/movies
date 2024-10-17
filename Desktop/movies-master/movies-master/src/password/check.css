@@ -1,0 +1,9 @@
+/* check.css */
+.check-email-container {
+  background-image: url("https://cdn.pixabay.com/photo/2020/04/20/18/10/cinema-5069314_1280.jpg");
+}
+
+.check-email-text {
+  margin-bottom: 30px;
+  color: var(--text-color);
+}

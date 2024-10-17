@@ -1,0 +1,16 @@
+/* reset.css */
+.reset-password-container {
+  background-image: url("https://cdn.pixabay.com/photo/2020/04/20/18/10/cinema-5069314_1280.jpg");
+}
+
+.reset-password-email {
+  color: var(--input-text);
+  margin-bottom: 20px;
+}
+
+.reset-password-label {
+  display: block;
+  text-align: left;
+  margin-bottom: 5px;
+  color: var(--input-text);
+}

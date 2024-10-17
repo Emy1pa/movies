@@ -1,0 +1,101 @@
+.movie-rating {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: var(--overlay-color);
+  border-radius: 8px;
+}
+
+.rating-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.rating-header h3 {
+  margin: 0;
+}
+
+.average-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rating-value {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.rating-count {
+  color: var(--text-color);
+  opacity: 0.8;
+  font-size: 0.9rem;
+}
+
+.stars-container {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.star-button {
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  cursor: pointer;
+  transition: transform var(--transition-speed);
+}
+
+.star-button:hover {
+  transform: scale(1.1);
+}
+
+.star-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.star-icon {
+  width: 24px;
+  height: 24px;
+  color: #666;
+  transition: color var(--transition-speed);
+}
+
+.star-button.filled .star-icon {
+  color: var(--primary-color);
+}
+
+.star-button.half-filled .star-icon {
+  color: var(--primary-color);
+}
+
+.rating-error {
+  color: var(--primary-color);
+  background-color: var(--filter-bg-color);
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+.user-rating {
+  margin-top: 1rem;
+  color: var(--text-color);
+  font-size: 0.9rem;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+}

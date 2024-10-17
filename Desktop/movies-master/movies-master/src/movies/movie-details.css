@@ -1,0 +1,160 @@
+:root {
+  --primary-color: #e50914;
+  --secondary-color: #221f1f;
+  --text-color: #ffffff;
+  --background-color: #141414;
+  --card-background: rgba(34, 31, 31, 0.8);
+  --hover-color: #ff0f1b;
+  --border-radius: 8px;
+  --transition-speed: 0.3s;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: "Arial", sans-serif;
+}
+
+.movie-details-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.back-button {
+  background-color: transparent;
+  color: var(--text-color);
+  border: 2px solid var(--primary-color);
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  transition: background-color var(--transition-speed),
+    color var(--transition-speed);
+  display: inline-block;
+  text-decoration: none;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.back-button:hover {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+.movie-details-content {
+  display: flex;
+  background-color: var(--card-background);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 10px 20px var(--shadow-color);
+}
+
+.movie-details-image {
+  flex: 0 0 35%;
+  max-width: 35%;
+  position: relative;
+  overflow: hidden;
+}
+
+.movie-details-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-speed);
+}
+
+.movie-details-image:hover img {
+  transform: scale(1.05);
+}
+
+.movie-details-info {
+  flex: 1;
+  padding: 2rem;
+}
+
+.movie-details-info h1 {
+  font-size: 2.2rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+
+.movie-details-info p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.info-label {
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-right: 0.5rem;
+}
+
+.book-now-button {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color var(--transition-speed);
+  display: inline-block;
+  text-decoration: none;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 1rem;
+}
+
+.book-now-button:hover {
+  background-color: var(--hover-color);
+}
+
+@media (max-width: 768px) {
+  .movie-details-content {
+    flex-direction: column;
+  }
+
+  .movie-details-image {
+    flex: 0 0 100%;
+    max-width: 100%;
+    max-height: 300px;
+  }
+
+  .movie-details-info {
+    padding: 1.5rem;
+  }
+
+  .movie-details-info h1 {
+    font-size: 1.8rem;
+  }
+}
+.favorite-icon {
+  font-size: 24px;
+  margin-top: 10px;
+}
+
+@media (max-width: 480px) {
+  .movie-details-container {
+    padding: 0.5rem;
+  }
+
+  .movie-details-info h1 {
+    font-size: 1.5rem;
+  }
+
+  .movie-details-info p {
+    font-size: 0.9rem;
+  }
+
+  .book-now-button {
+    width: 100%;
+    text-align: center;
+  }
+}

@@ -1,0 +1,14 @@
+/* forgot.css */
+.forgot-password-container {
+  background-image: url("https://cdn.pixabay.com/photo/2020/04/20/18/10/cinema-5069314_1280.jpg");
+}
+
+.forgot-password-form-group {
+  text-align: left;
+}
+
+.forgot-password-label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--input-text);
+}

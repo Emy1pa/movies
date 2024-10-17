@@ -1,0 +1,127 @@
+.movie-comments {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: var(--overlay-color);
+  border-radius: 8px;
+}
+
+.comments-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+}
+
+.comment-form {
+  margin-bottom: 2rem;
+}
+
+.comment-form textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 1rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  background-color: var(--filter-bg-color);
+  color: var(--text-color);
+  margin-bottom: 1rem;
+  resize: vertical;
+  transition: background-color var(--transition-speed);
+}
+
+.comment-form textarea:focus {
+  background-color: var(--filter-focus-color);
+  outline: none;
+  border-color: var(--primary-dark);
+}
+
+.comment-form button {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color var(--transition-speed);
+}
+
+.comment-form button:hover {
+  background-color: var(--primary-dark);
+}
+
+.comment-form button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.comment {
+  background-color: var(--filter-bg-color);
+  padding: 1rem;
+  border-radius: 4px;
+  position: relative;
+}
+
+.comment-content {
+  color: var(--text-color);
+  margin: 0;
+}
+
+.comment-actions {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-btn,
+.delete-btn {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  padding: 0.25rem;
+  transition: color var(--transition-speed);
+}
+
+.edit-btn:hover,
+.delete-btn:hover {
+  color: var(--primary-color);
+}
+
+.edit-textarea {
+  width: 100%;
+  min-height: 60px;
+  padding: 0.5rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  background-color: var(--filter-focus-color);
+  color: var(--text-color);
+  margin-right: 3rem;
+  resize: vertical;
+}
+
+.error-message {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: var(--filter-bg-color);
+  border-radius: 4px;
+}
+.cancel-btn {
+  background-color: transparent !important;
+  border: 1px solid var(--primary-color) !important;
+}
+.no-comments {
+  color: var(--text-color);
+  text-align: center;
+  font-style: italic;
+  opacity: 0.8;
+}

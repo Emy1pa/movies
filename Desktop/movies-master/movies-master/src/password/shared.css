@@ -1,0 +1,77 @@
+:root {
+  --primary-color: #e50914;
+  --secondary-color: #221f1f;
+  --text-color: #ffffff;
+  --background-color: #000000;
+  --input-background: #333333;
+  --input-text: #8c8c8c;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+
+.movieshow-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-image: url("https://cdn.pixabay.com/photo/2020/04/20/18/10/cinema-5069314_1280.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.movieshow-content {
+  background-color: rgba(0, 0, 0, 0.75);
+  padding: 40px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.movieshow-heading {
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
+
+.movieshow-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: var(--input-background);
+  border: none;
+  border-radius: 4px;
+  color: var(--text-color);
+}
+
+.movieshow-button {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.movieshow-button:hover {
+  background-color: #f40612;
+}
+
+.movieshow-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.movieshow-message {
+  color: var(--primary-color);
+  margin-top: 20px;
+}

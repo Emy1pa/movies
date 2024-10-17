@@ -1,0 +1,115 @@
+:root {
+  --primary-color: #e50914;
+  --secondary-color: #221f1f;
+  --text-color: #ffffff;
+  --background-color: #000000;
+  --input-background: #333333;
+  --input-text: #8c8c8c;
+  --card-background: #221f1f;
+  --hover-color: #ff0f1b;
+  --border-radius: 4px;
+  --transition-speed: 0.3s;
+  --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: Arial, sans-serif;
+}
+
+.available-screenings {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.screenings-title {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  text-align: center;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.available-screenings-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.screening-card {
+  background-color: var(--card-background);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: 0 10px 20px var(--shadow-color);
+  transition: transform var(--transition-speed),
+    box-shadow var(--transition-speed);
+  display: flex;
+  flex-direction: column;
+}
+
+.screening-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px var(--shadow-color);
+}
+
+.screening-card h3 {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  margin: 0 0 1rem;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 0.5rem;
+}
+
+.screening-info p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.screening-info span {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.reserve-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color var(--transition-speed),
+    transform var(--transition-speed);
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: auto;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.reserve-button:hover {
+  background-color: var(--hover-color);
+  transform: translateY(-2px);
+}
+
+.loading,
+.error {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .available-screenings-container {
+    grid-template-columns: 1fr;
+  }
+
+  .screenings-title {
+    font-size: 2rem;
+  }
+}

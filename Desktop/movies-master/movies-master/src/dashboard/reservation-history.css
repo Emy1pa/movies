@@ -1,0 +1,98 @@
+:root {
+  --primary-color: #e50914;
+  --secondary-color: #221f1f;
+  --text-color: #ffffff;
+  --background-color: #000000;
+  --card-background: #141414;
+  --hover-color: #ff0f1b;
+  --border-radius: 4px;
+  --transition-speed: 0.3s;
+}
+
+.reservations-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.error-message {
+  background-color: rgba(229, 9, 20, 0.2);
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: var(--border-radius);
+}
+
+.reservations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.reservation-card {
+  background-color: var(--card-background);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  transition: transform var(--transition-speed);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.reservation-card:hover {
+  transform: translateY(-5px);
+}
+
+.reservation-details {
+  padding: 1rem;
+}
+
+.reservation-details p {
+  margin: 0.5rem 0;
+}
+
+.reservation-details span {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.return-back-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color var(--transition-speed);
+}
+
+.return-back-link:hover {
+  color: var(--hover-color);
+}
+
+.seats-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.seat-badge {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--border-radius);
+  font-size: 0.875rem;
+}
+
+.no-reservations {
+  text-align: center;
+  font-size: 1.25rem;
+  color: var(--text-color);
+  opacity: 0.7;
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .reservations-grid {
+    grid-template-columns: 1fr;
+  }
+}

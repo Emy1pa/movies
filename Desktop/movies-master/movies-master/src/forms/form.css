@@ -1,0 +1,222 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
+
+:root {
+  --primary-color: #dc2626;
+  --primary-dark: #b91c1c;
+  --text-color: #ffffff;
+  --overlay-color: rgba(0, 0, 0, 0.7);
+  --transition-speed: 0.3s;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-image: url("https://cdn.pixabay.com/photo/2020/04/20/18/10/cinema-5069314_1280.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+
+.auth-container,
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.auth-form,
+.login-form {
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  width: 100%;
+  max-width: 800px;
+  animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-form h2,
+.login-form h2 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+  text-align: center;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  flex: 1 1 calc(50% - 0.5rem);
+  min-width: 150px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: background-color var(--transition-speed) ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* New styles for image upload */
+.form-row.image-upload {
+  flex-basis: 100%;
+}
+
+.form-group.image-upload {
+  flex: 1 1 100%;
+}
+
+.form-group input[type="file"] {
+  padding: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.form-group input[type="file"]::-webkit-file-upload-button {
+  visibility: hidden;
+  width: 0;
+}
+
+.form-group input[type="file"]::before {
+  content: "Select Image";
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color var(--transition-speed) ease;
+}
+
+.form-group input[type="file"]:hover::before {
+  background-color: var(--primary-dark);
+}
+
+button[type="submit"] {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.5);
+  width: 100%;
+  margin-top: 1rem;
+}
+
+button[type="submit"]:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.7);
+}
+
+button[type="submit"]:active {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(220, 38, 38, 0.6);
+}
+
+button[type="submit"]:disabled {
+  background-color: #6b6b6b;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.forgot-password {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.forgot-password a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color var(--transition-speed) ease;
+}
+
+.forgot-password a:hover {
+  color: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+  .auth-form,
+  .login-form {
+    padding: 1.5rem;
+  }
+  .auth-form h2,
+  .login-form h2 {
+    font-size: 2rem;
+  }
+  .form-group {
+    flex: 1 1 100%;
+  }
+  button[type="submit"] {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-container,
+  .login-container {
+    padding: 1rem;
+  }
+  .auth-form,
+  .login-form {
+    padding: 1rem;
+  }
+  .auth-form h2,
+  .login-form h2 {
+    font-size: 1.8rem;
+  }
+  .form-group input {
+    padding: 0.6rem;
+  }
+  button[type="submit"] {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
