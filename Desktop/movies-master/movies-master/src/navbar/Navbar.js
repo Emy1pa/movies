@@ -9,13 +9,18 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-content">
           <div className="navbar-brand">
-            <span className="logo">MovieShow</span>
+            <Link to={"/"} className="nav-link">
+              <span className="logo">MovieShow</span>
+            </Link>
           </div>
           <div className="navbar-menu">
             <div className="navbar-links">
@@ -29,7 +34,13 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
           </div>
           <div className="navbar-auth">
             {isLoggedIn ? (
-              <button onClick={handleLogout} className="logout-button">
+              <button
+                onClick={() => {
+                  handleLogout();
+                  closeMobileMenu();
+                }}
+                className="logout-button"
+              >
                 <LogOut size={16} className="logout-icon" />
                 <span>Logout</span>
               </button>
@@ -61,24 +72,38 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         </div>
       </div>
       <div className={`mobile-menu ${isMobileMenuOpen ? "open" : ""}`}>
-        <Link to="/" className="nav-link">
+        <Link to="/" className="nav-link" onClick={closeMobileMenu}>
           Homepage
         </Link>
-        <Link to="/movies" className="nav-link">
+        <Link to="/movies" className="nav-link" onClick={closeMobileMenu}>
           Movies
         </Link>
         {isLoggedIn ? (
-          <button onClick={handleLogout} className="logout-button mobile">
+          <button
+            onClick={() => {
+              handleLogout();
+              closeMobileMenu();
+            }}
+            className="logout-button mobile"
+          >
             <LogOut size={16} className="logout-icon" />
             <span>Logout</span>
           </button>
         ) : (
           <>
-            <Link to="/register" className="nav-link">
+            <Link to="/register" className="nav-link" onClick={closeMobileMenu}>
               Register
             </Link>
-            <Link to="/login" className="login-button mobile">
-              <User size={16} className="login-icon" />
+            <Link
+              to="/login"
+              className="login-button mobile"
+              onClick={closeMobileMenu}
+            >
+              <User
+                size={16}
+                className="login-icon"
+                onClick={closeMobileMenu}
+              />
               <span>Login</span>
             </Link>
           </>
