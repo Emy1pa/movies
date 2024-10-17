@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./favoriteList.css";
+import { Link } from "react-router-dom";
+
 const FavoritesList = () => {
   const [favorites, setFavorites] = useState([]);
   const [error, setError] = useState(null);
@@ -22,7 +24,9 @@ const FavoritesList = () => {
             headers: { token: token },
           }
         );
-        setFavorites(response.data);
+
+        // Ensure response.data is an array
+        setFavorites(Array.isArray(response.data) ? response.data : []);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching favorites:", error);
@@ -54,25 +58,28 @@ const FavoritesList = () => {
               <div className="movie-image-container">
                 <img
                   src={
-                    favorite.movie.image?.url ||
+                    favorite.movie?.image?.url ||
                     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
                   }
-                  alt={favorite.movie.title}
+                  alt={favorite.movie?.title}
                   className="movie-image"
                 />
               </div>
-              <div className="movie-info">
-                <h3>{favorite.movie.title}</h3>
-                <p className="genre">{favorite.movie.genre}</p>
+              <div className="movie-infos">
+                <h3>{favorite.movie?.title}</h3>
+                <p className="genre">{favorite.movie?.genre}</p>
                 <p className="published-date">
                   Published:{" "}
-                  {new Date(favorite.movie.publishedAt).toLocaleDateString()}
+                  {new Date(favorite.movie?.published_at).toLocaleDateString()}
                 </p>
               </div>
             </div>
           ))}
         </div>
       )}
+      <Link to={"/dashboard"} className="return-back-link">
+        return back
+      </Link>
     </div>
   );
 };

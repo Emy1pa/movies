@@ -7,12 +7,40 @@ import {
   Phone,
   CreditCard,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ProfileUpdate from "./ProfileUpdate";
 import "./profile.css";
+import { jwtDecode } from "jwt-decode";
+
 export default function UserProfile({ infos }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [userRole, setUserRole] = useState(null);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        const role = decodedToken.role;
+        setUserRole(role);
+      } catch (error) {
+        console.error("Error decoding token:", error);
+      }
+    }
+  }, []);
+  const handleButtonClick = () => {
+    switch (userRole) {
+      case "admin":
+        navigate("/adminDashboard");
+        break;
+      case "client":
+        navigate("/dashboard");
+        break;
+      default:
+        navigate("/login");
+        break;
+    }
+  };
   if (!infos) {
     return <div>Loading...</div>;
   }
@@ -95,12 +123,11 @@ export default function UserProfile({ infos }) {
               <Camera size={16} />
               Update Profile
             </button>
-            <Link to={"/dashboard"}>
-              <button className="update-profile-btn">
-                <Undo2 size={16} />
-                Cancel
-              </button>
-            </Link>
+
+            <button className="update-profile-btn" onClick={handleButtonClick}>
+              <Undo2 size={16} />
+              Cancel
+            </button>
           </div>
         </div>
       </section>

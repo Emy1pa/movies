@@ -215,6 +215,9 @@ const MovieGallery = () => {
             </div>
           ))}
         </div>
+        <Link to={"/adminDashboard"} className="return-back-link">
+          return back
+        </Link>
       </div>
       <DeleteConfirmationModal />
     </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./user.css";
+import { Link } from "react-router-dom";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -98,6 +99,9 @@ const UserList = () => {
           </div>
         ))}
       </div>
+      <Link to={"/adminDashboard"} className="return-back-link">
+        return back
+      </Link>
     </div>
   );
 };
