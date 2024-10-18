@@ -123,7 +123,7 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            <ProtectedRoute allowedRoles={["user"]}>
+            <ProtectedRoute allowedRoles={["client"]}>
               <SideBar
                 isLoggedIn={isLoggedIn}
                 setIsLoggedIn={setIsLoggedIn}
@@ -139,7 +139,7 @@ function App() {
         <Route
           path="/reservation/:screeningId"
           element={
-            <ProtectedRoute allowedRoles={["user"]}>
+            <ProtectedRoute allowedRoles={["client"]}>
               <Reservation />
             </ProtectedRoute>
           }
@@ -147,7 +147,7 @@ function App() {
         <Route
           path="/reservation-confirmation"
           element={
-            <ProtectedRoute allowedRoles={["user"]}>
+            <ProtectedRoute allowedRoles={["client"]}>
               <ReservationConfirmation />
             </ProtectedRoute>
           }
@@ -155,7 +155,7 @@ function App() {
         <Route
           path="history"
           element={
-            <ProtectedRoute allowedRoles={["user"]}>
+            <ProtectedRoute allowedRoles={["client"]}>
               <Reservations userId={localStorage.getItem("userId")} />
             </ProtectedRoute>
           }
@@ -163,7 +163,7 @@ function App() {
         <Route
           path="/profileUpdate"
           element={
-            <ProtectedRoute allowedRoles={["user"]}>
+            <ProtectedRoute allowedRoles={["client", "admin"]}>
               <UserInfos userId={localStorage.getItem("userId")} />
             </ProtectedRoute>
           }
@@ -171,7 +171,7 @@ function App() {
         <Route
           path="/favorites"
           element={
-            <ProtectedRoute allowedRoles={["user"]}>
+            <ProtectedRoute allowedRoles={["client"]}>
               <FavoritesList />
             </ProtectedRoute>
           }
