@@ -275,7 +275,7 @@ const EditMovie = () => {
           <button
             type="button"
             className="btn btn-secondary"
-            onClick={() => navigate("/movies")}
+            onClick={() => navigate("/admin/movies")}
           >
             <span className="btn-content">Cancel</span>
           </button>

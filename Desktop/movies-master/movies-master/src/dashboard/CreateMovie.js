@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./CreateMovie.css";
 
@@ -220,13 +220,11 @@ const CreateMovie = () => {
           </select>
         </div>
         <div className="form-actions">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={() => navigate("/admin/movies")}
-          >
-            <span className="btn-content">Cancel</span>
-          </button>
+          <Link to={"/admin/movies"}>
+            <button type="button" className="btn btn-secondary">
+              <span className="btn-content">Cancel</span>
+            </button>
+          </Link>
           <button type="submit" className="btn btn-primary" disabled={loading}>
             <span className="btn-content">
               {loading ? (

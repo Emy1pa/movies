@@ -12,6 +12,7 @@ import {
   Home,
 } from "lucide-react";
 import "./statistics.css";
+import { Link } from "react-router-dom";
 
 const StatCard = ({ icon: Icon, title, value }) => (
   <div className="stat-card">
@@ -168,6 +169,9 @@ const Statistics = () => {
           />
         ))}
       </div>
+      <Link to={"/adminDashboard"} className="return-back-link">
+        return back
+      </Link>
     </div>
   );
 };

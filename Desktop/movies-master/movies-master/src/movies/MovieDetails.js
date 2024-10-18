@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import "./movie-details.css";
-import { Heart } from "lucide-react";
+import { Heart, X } from "lucide-react";
 import { FaHeart } from "react-icons/fa";
 import MovieComments from "../dashboard/MovieComments";
 import MovieRating from "./MovieRating";
@@ -16,6 +16,7 @@ const MovieDetails = () => {
   const [error, setError] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [userRole, setUserRole] = useState(null);
+  const [isWatchModalOpen, setIsWatchModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -113,7 +114,14 @@ const MovieDetails = () => {
   if (!movie) return <div className="error">Movie not found</div>;
 
   const isClient = userRole === "client";
+  const handleWatchMovie = () => {
+    setIsWatchModalOpen(true);
+  };
 
+  const closeWatchModal = () => {
+    console.log("Closing modal...");
+    setIsWatchModalOpen(false);
+  };
   return (
     <div className="movie-details-container">
       <Link to="/movies" className="back-button">
@@ -143,6 +151,25 @@ const MovieDetails = () => {
             {new Date(movie.published_at).toLocaleDateString()}
           </p>
 
+          <div className="movie-action-buttons">
+            {isClient && (
+              <>
+                <Link
+                  to={`/screenings/${movie._id}`}
+                  className="book-now-button"
+                >
+                  Book Now
+                </Link>
+                <button
+                  className="watch-movie-button"
+                  onClick={handleWatchMovie}
+                >
+                  Watch Movie
+                </button>
+              </>
+            )}
+          </div>
+
           <div
             className={`favorite-icon ${!isClient ? "disabled" : ""}`}
             onClick={handleFavoriteToggle}
@@ -155,13 +182,39 @@ const MovieDetails = () => {
               <Heart style={{ color: isClient ? "gray" : "#ccc" }} />
             )}
           </div>
-
-          {isClient && (
-            <Link to={`/screenings/${movie._id}`} className="book-now-button">
-              Book Now
-            </Link>
-          )}
         </div>
+        {isWatchModalOpen && (
+          <div className="watch-modal-overlay">
+            <div className="watch-modal">
+              <button className="close-modal" onClick={closeWatchModal}>
+                <X size={24} />
+              </button>
+              <h2>{movie.title}</h2>
+              <div className="video-container">
+                {movie.video && movie.video.url ? (
+                  <video controls className="video-player">
+                    <source
+                      src={movie.video.url}
+                      type={`video/${movie.video.format}`}
+                    />
+                    Your browser does not support the video tag.
+                  </video>
+                ) : (
+                  <div className="video-placeholder">
+                    <img
+                      src={
+                        movie.image?.url ||
+                        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                      }
+                      alt={`${movie.title} poster`}
+                    />
+                    <p>Video not available</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <MovieRating movieId={movie._id} />

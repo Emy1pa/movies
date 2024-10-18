@@ -92,7 +92,7 @@ const Reservation = () => {
     <div className="reservation-container">
       <h1 className="reservation-title">Select Your Seats</h1>
       <div className="screening-info">
-        <p>Movie: {screening.movie.title}</p>
+        <p>Movie: {screening.movie?.title}</p>
         <p>Room: {screening.room.name}</p>
         <p>Price: ${screening.price}</p>
       </div>
