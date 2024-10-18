@@ -13,6 +13,9 @@ const FavoritesList = () => {
       try {
         const token = localStorage.getItem("authToken");
         const userId = localStorage.getItem("userId");
+        const cachedFavorites = JSON.parse(
+          localStorage.getItem("cachedFavorites") || "{}"
+        );
 
         if (!token || !userId) {
           throw new Error("Authentication information is missing");
@@ -24,9 +27,32 @@ const FavoritesList = () => {
             headers: { token: token },
           }
         );
+        const serverFavorites = Array.isArray(response.data)
+          ? response.data
+          : [];
 
-        // Ensure response.data is an array
-        setFavorites(Array.isArray(response.data) ? response.data : []);
+        const mergedFavorites = serverFavorites.map((fav) => ({
+          ...fav,
+          isCached: cachedFavorites[fav.movie?._id] !== undefined,
+        }));
+
+        setFavorites(mergedFavorites);
+        const cachedMovieIds = Object.entries(cachedFavorites)
+          .filter(([_, isFav]) => isFav)
+          .map(([movieId]) => movieId);
+
+        const cachedMoviesPromises = cachedMovieIds.map((movieId) =>
+          axios.get(`http://localhost:8800/api/movies/${movieId}`)
+        );
+
+        const cachedMoviesResponses = await Promise.all(cachedMoviesPromises);
+        const cachedMoviesFavorites = cachedMoviesResponses.map((response) => ({
+          movie: response.data,
+          isCached: true,
+        }));
+
+        setFavorites(cachedMoviesFavorites);
+        // setFavorites(Array.isArray(response.data) ? response.data : []);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching favorites:", error);

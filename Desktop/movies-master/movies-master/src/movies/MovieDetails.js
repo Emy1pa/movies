@@ -52,61 +52,149 @@ const MovieDetails = () => {
     getUserRole();
   }, [id]);
 
+  // const checkIfFavorite = async () => {
+  //   try {
+  //     const userId = localStorage.getItem("userId");
+  //     const token = localStorage.getItem("authToken");
+  //     const response = await axios.get(
+  //       `http://localhost:8800/api/favorites/user/${userId}`,
+  //       {
+  //         headers: {
+  //           token: token,
+  //         },
+  //       }
+  //     );
+  //     const favorites = response.data;
+
+  //     const favoriteMovie = favorites.find(
+  //       (fav) => fav.movie?.toString() === id
+  //     );
+  //     setIsFavorite(!!favoriteMovie);
+  //   } catch (err) {
+  //     console.error("Error checking favorites:", err);
+  //   }
+  // };
+
+  // const handleFavoriteToggle = async () => {
+  //   const userId = localStorage.getItem("userId");
+  //   const token = localStorage.getItem("authToken");
+  //   if (userRole !== "client") return;
+
+  //   try {
+  //     if (isFavorite) {
+  //       console.log("Removing favorite:", { user: userId, movie: id });
+
+  //       await axios.delete(`http://localhost:8800/api/favorites`, {
+  //         headers: {
+  //           token: token,
+  //           "Content-Type": "application/json",
+  //         },
+  //         data: { user: userId, movie: id },
+  //       });
+  //       setIsFavorite(false);
+  //     } else {
+  //       console.log("Adding favorite:", { user: userId, movie: id });
+
+  //       await axios.post(
+  //         `http://localhost:8800/api/favorites`,
+  //         { user: userId, movie: id },
+  //         {
+  //           headers: {
+  //             token: token,
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       );
+
+  //       setIsFavorite(true);
+  //     }
+  //   } catch (err) {
+  //     console.error("Error toggling favorite:", err);
+  //   }
+  //   console.log("Sending favorite:", { user: userId, movie: id });
+  // };
   const checkIfFavorite = async () => {
     try {
+      const cachedFavorites = JSON.parse(
+        localStorage.getItem("cachedFavorites") || "{}"
+      );
+      if (cachedFavorites[id] !== undefined) {
+        setIsFavorite(cachedFavorites[id]);
+        return;
+      }
+
       const userId = localStorage.getItem("userId");
       const token = localStorage.getItem("authToken");
-      const response = await axios.get(
-        `http://localhost:8800/api/favorites/user/${userId}`,
-        {
-          headers: {
-            token: token,
-          },
-        }
-      );
-      const favorites = response.data;
+      if (userId && token) {
+        const response = await axios.get(
+          `http://localhost:8800/api/favorites/user/${userId}`,
+          {
+            headers: { token: token },
+          }
+        );
+        const favorites = response.data;
+        const favoriteMovie = favorites.find(
+          (fav) => fav.movie?.toString() === id
+        );
+        const isFav = !!favoriteMovie;
+        setIsFavorite(isFav);
 
-      const favoriteMovie = favorites.find(
-        (fav) => fav.movie?.toString() === id
-      );
-      setIsFavorite(!!favoriteMovie);
+        cachedFavorites[id] = isFav;
+        localStorage.setItem(
+          "cachedFavorites",
+          JSON.stringify(cachedFavorites)
+        );
+      }
     } catch (err) {
       console.error("Error checking favorites:", err);
     }
   };
 
   const handleFavoriteToggle = async () => {
-    if (userRole !== "client") return;
-
     const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("authToken");
 
-    try {
-      if (isFavorite) {
-        await axios.delete(`http://localhost:8800/api/favorites`, {
-          headers: {
-            token: token,
-          },
-          data: { user: userId, movie: id },
-        });
-        setIsFavorite(false);
-      } else {
-        await axios.post(
-          `http://localhost:8800/api/favorites`,
-          { user: userId, movie: id },
-          {
+    const newFavoriteState = !isFavorite;
+    setIsFavorite(newFavoriteState);
+
+    const cachedFavorites = JSON.parse(
+      localStorage.getItem("cachedFavorites") || "{}"
+    );
+    cachedFavorites[id] = newFavoriteState;
+    localStorage.setItem("cachedFavorites", JSON.stringify(cachedFavorites));
+
+    if (userRole === "client" && userId && token) {
+      try {
+        if (newFavoriteState) {
+          await axios.post(
+            `http://localhost:8800/api/favorites`,
+            { user: userId, movie: id },
+            {
+              headers: {
+                token: token,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+        } else {
+          await axios.delete(`http://localhost:8800/api/favorites`, {
             headers: {
               token: token,
+              "Content-Type": "application/json",
             },
-          }
+            data: { user: userId, movie: id },
+          });
+        }
+      } catch (err) {
+        console.error("Error toggling favorite:", err);
+        setIsFavorite(!newFavoriteState);
+        cachedFavorites[id] = !newFavoriteState;
+        localStorage.setItem(
+          "cachedFavorites",
+          JSON.stringify(cachedFavorites)
         );
-
-        setIsFavorite(true);
       }
-    } catch (err) {
-      console.error("Error toggling favorite:", err);
     }
-    console.log("Sending favorite:", { user: userId, movie: id });
   };
 
   if (loading) return <div className="loading">Loading...</div>;

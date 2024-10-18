@@ -69,9 +69,9 @@ export default function Login({ setIsLoggedIn }) {
 
         toast.success("Login successful!");
         if (role === "client") {
-          navigate("/dashboard");
+          navigate("/");
         } else if (role === "admin") {
-          navigate("/adminDashboard");
+          navigate("/");
         } else {
           navigate("/");
         }

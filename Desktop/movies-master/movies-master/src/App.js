@@ -25,6 +25,7 @@ import CreateMovie from "./dashboard/CreateMovie";
 import EditMovie from "./dashboard/EditMovie";
 import FavoritesList from "./dashboard/FavoritesList";
 import Statistics from "./dashboard/Statistics";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   const navigate = useNavigate();
@@ -33,12 +34,12 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
-
     setIsLoggedIn(!!token);
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
+    localStorage.removeItem("userRole");
     setIsLoggedIn(false);
     navigate("/login");
   };
@@ -48,7 +49,7 @@ function App() {
 
   return (
     <div className="App">
-      {!isDashboard && (
+      {!isDashboard && !adminDashboard && (
         <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
       )}
       <Routes>
@@ -65,49 +66,115 @@ function App() {
         />
         <Route path="/check-email" element={<CheckEmail />} />
         <Route path="/success" element={<Success />} />
+
         <Route
           path="/adminDashboard"
           element={
-            <AdminSidebar
-              isLoggedIn={isLoggedIn}
-              setIsLoggedIn={setIsLoggedIn}
-              handleLogout={handleLogout}
-            />
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminSidebar
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
+                handleLogout={handleLogout}
+              />
+            </ProtectedRoute>
           }
         />
-        <Route path="/admin/users" element={<UserList />} />
-        <Route path="/admin/movies" element={<MovieGallery />} />
-        <Route path="/movies/create" element={<CreateMovie />} />
-        <Route path="/admin/movies/edit/:id" element={<EditMovie />} />
-        <Route path="/favorites" element={<FavoritesList />} />
-        <Route path="/admin/statistics" element={<Statistics />} />
+        <Route
+          path="/admin/users"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <UserList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/movies"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <MovieGallery />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/movies/create"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <CreateMovie />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/movies/edit/:id"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <EditMovie />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/statistics"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <Statistics />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/dashboard"
           element={
-            <SideBar
-              isLoggedIn={isLoggedIn}
-              setIsLoggedIn={setIsLoggedIn}
-              handleLogout={handleLogout}
-            />
+            <ProtectedRoute allowedRoles={["user"]}>
+              <SideBar
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
+                handleLogout={handleLogout}
+              />
+            </ProtectedRoute>
           }
         />
 
         <Route path="/movies" element={<Movies />} />
         <Route path="/movie/:id" element={<MovieDetails />} />
         <Route path="/screenings/:movieId" element={<AvailableScreenings />} />
-        <Route path="/reservation/:screeningId" element={<Reservation />} />
+        <Route
+          path="/reservation/:screeningId"
+          element={
+            <ProtectedRoute allowedRoles={["user"]}>
+              <Reservation />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/reservation-confirmation"
-          element={<ReservationConfirmation />}
+          element={
+            <ProtectedRoute allowedRoles={["user"]}>
+              <ReservationConfirmation />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="history"
-          element={<Reservations userId={localStorage.getItem("userId")} />}
+          element={
+            <ProtectedRoute allowedRoles={["user"]}>
+              <Reservations userId={localStorage.getItem("userId")} />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/profileUpdate"
-          element={<UserInfos userId={localStorage.getItem("userId")} />}
+          element={
+            <ProtectedRoute allowedRoles={["user"]}>
+              <UserInfos userId={localStorage.getItem("userId")} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/favorites"
+          element={
+            <ProtectedRoute allowedRoles={["user"]}>
+              <FavoritesList />
+            </ProtectedRoute>
+          }
         />
       </Routes>
     </div>

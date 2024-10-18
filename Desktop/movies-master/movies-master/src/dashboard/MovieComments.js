@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { MessageCircle, Trash2, Edit } from "lucide-react";
+import { MessageCircle, Trash2, Edit, LogIn } from "lucide-react";
 import "./comments.css";
 
 const MovieComments = ({ movieId }) => {
@@ -15,6 +15,7 @@ const MovieComments = ({ movieId }) => {
   const token = localStorage.getItem("authToken");
   const userRole = localStorage.getItem("userRole") || "";
   const isClient = userRole === "client";
+  const isLoggedIn = !!token;
 
   useEffect(() => {
     fetchComments();
@@ -23,7 +24,7 @@ const MovieComments = ({ movieId }) => {
   const fetchComments = async () => {
     try {
       const response = await axios.get("http://localhost:8800/api/comments", {
-        headers: { token },
+        headers: token ? { token } : {},
       });
       const movieComments = response.data.filter(
         (comment) => comment.movie === movieId
@@ -37,7 +38,7 @@ const MovieComments = ({ movieId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!isClient || !newComment.trim()) return;
+    if (!isClient || !isLoggedIn || !newComment.trim()) return;
 
     try {
       setLoading(true);
@@ -63,7 +64,7 @@ const MovieComments = ({ movieId }) => {
   };
 
   const handleDelete = async (commentId) => {
-    if (!isClient) return;
+    if (!isClient || !isLoggedIn) return;
 
     if (!window.confirm("Are you sure you want to delete this comment?")) {
       return;
@@ -87,7 +88,7 @@ const MovieComments = ({ movieId }) => {
   };
 
   const handleEdit = async (commentId) => {
-    if (!isClient) return;
+    if (!isClient || !isLoggedIn) return;
 
     if (editingId === commentId) {
       if (editContent.trim().length < 5) {
@@ -134,7 +135,20 @@ const MovieComments = ({ movieId }) => {
         Comments ({comments.length})
       </h3>
 
-      {isClient && (
+      {!isLoggedIn && (
+        <div className="comments-notice">
+          <LogIn size={16} className="icon" />
+          <span>Please log in to interact with comments</span>
+        </div>
+      )}
+
+      {isLoggedIn && !isClient && (
+        <div className="comments-notice">
+          Only registered clients can post comments
+        </div>
+      )}
+
+      {isLoggedIn && isClient && (
         <form onSubmit={handleSubmit} className="comment-form">
           <textarea
             value={newComment}
@@ -152,18 +166,13 @@ const MovieComments = ({ movieId }) => {
         </form>
       )}
 
-      {!isClient && (
-        <div className="comments-notice">
-          Only registered clients can post comments
-        </div>
-      )}
-
       {error && <div className="error-message">{error}</div>}
 
       <div className="comments-list">
         {comments.length === 0 ? (
           <p className="no-comments">
-            No comments yet. {isClient ? "Be the first to comment!" : ""}
+            No comments yet.{" "}
+            {isLoggedIn && isClient ? "Be the first to comment!" : ""}
           </p>
         ) : (
           comments.map((comment) => (
@@ -192,7 +201,7 @@ const MovieComments = ({ movieId }) => {
               ) : (
                 <>
                   <p className="comment-content">{comment.content}</p>
-                  {isClient && comment.user === userId && (
+                  {isLoggedIn && isClient && comment.user === userId && (
                     <div className="comment-actions">
                       <button
                         onClick={() => handleEdit(comment._id)}

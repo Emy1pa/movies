@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Star, StarHalf } from "lucide-react";
+import { Star, StarHalf, LogIn } from "lucide-react";
 import axios from "axios";
 import "./rate.css";
 
@@ -16,10 +16,11 @@ const MovieRating = ({ movieId }) => {
   const token = localStorage.getItem("authToken");
   const userRole = localStorage.getItem("userRole") || "";
   const isClient = userRole === "client";
+  const isLoggedIn = !!token;
 
   const api = axios.create({
     baseURL: "http://localhost:8800/api",
-    headers: { token },
+    headers: token ? { token } : {},
   });
 
   useEffect(() => {
@@ -45,7 +46,7 @@ const MovieRating = ({ movieId }) => {
         setTotalRatings(movieRatings.length);
       }
 
-      if (isClient) {
+      if (isLoggedIn && isClient) {
         const userRating = movieRatings.find((rate) => rate.user === userId);
         if (userRating) {
           setUserRating(userRating);
@@ -62,7 +63,7 @@ const MovieRating = ({ movieId }) => {
   };
 
   const handleRating = async (value) => {
-    if (!isClient) return;
+    if (!isLoggedIn || !isClient) return;
 
     try {
       setError(null);
@@ -91,13 +92,13 @@ const MovieRating = ({ movieId }) => {
   };
 
   const handleMouseEnter = (value) => {
-    if (isClient) {
+    if (isLoggedIn && isClient) {
       setHoveredRating(value);
     }
   };
 
   const handleMouseLeave = () => {
-    if (isClient) {
+    if (isLoggedIn && isClient) {
       setHoveredRating(0);
     }
   };
@@ -114,11 +115,11 @@ const MovieRating = ({ movieId }) => {
           key={value}
           className={`star-button ${filled ? "filled" : ""} ${
             halfFilled ? "half-filled" : ""
-          } ${!isClient ? "disabled" : ""}`}
+          } ${!isLoggedIn || !isClient ? "disabled" : ""}`}
           onMouseEnter={() => handleMouseEnter(value)}
           onMouseLeave={handleMouseLeave}
           onClick={() => handleRating(value)}
-          disabled={loading || !isClient}
+          disabled={loading || !isLoggedIn || !isClient}
         >
           {halfFilled ? (
             <StarHalf className="star-icon" />
@@ -143,10 +144,17 @@ const MovieRating = ({ movieId }) => {
       </div>
 
       <div className="stars-container">
-        {renderStars(hoveredRating || rating || 0)}
+        {renderStars(hoveredRating || rating || averageRating || 0)}
       </div>
 
-      {!isClient && (
+      {!isLoggedIn && (
+        <div className="rating-notice">
+          <LogIn size={16} className="icon" />
+          <span>Please log in to rate this movie</span>
+        </div>
+      )}
+
+      {isLoggedIn && !isClient && (
         <div className="rating-notice">
           Only registered clients can rate movies
         </div>
@@ -154,7 +162,7 @@ const MovieRating = ({ movieId }) => {
 
       {error && <div className="rating-error">{error}</div>}
 
-      {rating && isClient && (
+      {rating && isLoggedIn && isClient && (
         <div className="user-rating">
           Your rating: <span className="rating-value">{rating}</span>/10
         </div>
