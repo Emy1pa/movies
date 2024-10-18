@@ -64,7 +64,7 @@ const MovieList = ({ movies, genres }) => {
                 className="movie-image"
               />
             </div>
-            <div className="movie-infos">
+            <div className="movie-info">
               <h2 className="movie-title">{movie.title}</h2>
               <div className="movie-duration">
                 <span className="icon">🕒</span>

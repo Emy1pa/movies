@@ -79,7 +79,6 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 2rem;
 }
-
 .movie-card {
   background-color: var(--overlay-color);
   border-radius: 10px;
@@ -89,8 +88,8 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
+  position: relative;
 }
-
 .movie-card:hover {
   transform: translateY(-5px);
 }
@@ -116,12 +115,25 @@ body {
 }
 
 .movie-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.85);
   padding: 1rem;
+  transform: translateY(100%);
+  transition: transform var(--transition-speed);
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  gap: 0.5rem;
+}
+.movie-card:hover .movie-info {
+  transform: translateY(0);
 }
 
+.movie-card:hover .movie-image {
+  transform: scale(1.05);
+}
 .movie-title {
   font-size: 1.5rem;
   margin: 0 0 0.5rem;

@@ -24,6 +24,7 @@ import MovieGallery from "./dashboard/MovieGallery";
 import CreateMovie from "./dashboard/CreateMovie";
 import EditMovie from "./dashboard/EditMovie";
 import FavoritesList from "./dashboard/FavoritesList";
+import Statistics from "./dashboard/Statistics";
 
 function App() {
   const navigate = useNavigate();
@@ -79,6 +80,7 @@ function App() {
         <Route path="/movies/create" element={<CreateMovie />} />
         <Route path="/admin/movies/edit/:id" element={<EditMovie />} />
         <Route path="/favorites" element={<FavoritesList />} />
+        <Route path="/admin/statistics" element={<Statistics />} />
 
         <Route
           path="/dashboard"
