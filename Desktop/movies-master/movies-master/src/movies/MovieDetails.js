@@ -176,6 +176,7 @@ const MovieDetails = () => {
               },
             }
           );
+          cachedFavorites[id] = true;
         } else {
           await axios.delete(`http://localhost:8800/api/favorites`, {
             headers: {
@@ -184,10 +185,22 @@ const MovieDetails = () => {
             },
             data: { user: userId, movie: id },
           });
+          console.log("User ID:", userId);
+          console.log("Movie ID:", id);
+          delete cachedFavorites[id];
         }
+        localStorage.setItem(
+          "cachedFavorites",
+          JSON.stringify(cachedFavorites)
+        );
       } catch (err) {
         console.error("Error toggling favorite:", err);
         setIsFavorite(!newFavoriteState);
+        if (!newFavoriteState) {
+          cachedFavorites[id] = true;
+        } else {
+          delete cachedFavorites[id];
+        }
         cachedFavorites[id] = !newFavoriteState;
         localStorage.setItem(
           "cachedFavorites",

@@ -11,7 +11,6 @@ const MovieRating = ({ movieId }) => {
   const [error, setError] = useState(null);
   const [averageRating, setAverageRating] = useState(0);
   const [totalRatings, setTotalRatings] = useState(0);
-
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("authToken");
   const userRole = localStorage.getItem("userRole") || "";
