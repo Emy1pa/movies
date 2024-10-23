@@ -29,7 +29,7 @@ const FavoritesList = () => {
         );
         const serverFavorites = Array.isArray(response.data)
           ? response.data
-          : [];
+          : response.data.favorites || [];
 
         const mergedFavorites = serverFavorites.map((fav) => ({
           ...fav,
@@ -41,17 +41,6 @@ const FavoritesList = () => {
           .filter(([_, isFav]) => isFav)
           .map(([movieId]) => movieId);
 
-        const cachedMoviesPromises = cachedMovieIds.map((movieId) =>
-          axios.get(`http://localhost:8800/api/movies/${movieId}`)
-        );
-
-        const cachedMoviesResponses = await Promise.all(cachedMoviesPromises);
-        const cachedMoviesFavorites = cachedMoviesResponses.map((response) => ({
-          movie: response.data,
-          isCached: true,
-        }));
-
-        setFavorites(cachedMoviesFavorites);
         // setFavorites(Array.isArray(response.data) ? response.data : []);
         setLoading(false);
       } catch (error) {
