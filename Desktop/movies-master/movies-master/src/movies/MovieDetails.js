@@ -253,7 +253,7 @@ const MovieDetails = () => {
           </p>
 
           <div className="movie-action-buttons">
-            {isClient && (
+            {/* {isClient && (
               <>
                 <Link
                   to={`/screenings/${movie._id}`}
@@ -268,7 +268,7 @@ const MovieDetails = () => {
                   Watch Movie
                 </button>
               </>
-            )}
+            )} */}
           </div>
 
           <div

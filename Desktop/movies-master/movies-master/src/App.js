@@ -135,7 +135,7 @@ function App() {
 
         <Route path="/movies" element={<Movies />} />
         <Route path="/movie/:id" element={<MovieDetails />} />
-        <Route path="/screenings/:movieId" element={<AvailableScreenings />} />
+        <Route path="/screenings" element={<AvailableScreenings />} />
         <Route
           path="/reservation/:screeningId"
           element={

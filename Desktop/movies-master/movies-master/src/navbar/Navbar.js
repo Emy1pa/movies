@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { User, Menu, X, LogOut } from "lucide-react";
-import "./navbar.css";
 import { Link } from "react-router-dom";
-
+import "./navbar.css";
 const Navbar = ({ isLoggedIn, handleLogout }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const userRole = localStorage.getItem("userRole") || "";
+  const isClient = userRole === "client";
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
   };
@@ -18,7 +20,7 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
       <div className="navbar-container">
         <div className="navbar-content">
           <div className="navbar-brand">
-            <Link to={"/"} className="nav-link">
+            <Link to="/" className="nav-link">
               <span className="logo">MovieShow</span>
             </Link>
           </div>
@@ -30,6 +32,11 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
               <Link to="/movies" className="nav-link">
                 Movies
               </Link>
+              {isLoggedIn && isClient && (
+                <Link to="/screenings" className="nav-link">
+                  Book Now
+                </Link>
+              )}
             </div>
           </div>
           <div className="navbar-auth">
@@ -78,6 +85,11 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         <Link to="/movies" className="nav-link" onClick={closeMobileMenu}>
           Movies
         </Link>
+        {isLoggedIn && isClient && (
+          <Link to="/screenings" className="nav-link" onClick={closeMobileMenu}>
+            Book Now
+          </Link>
+        )}
         {isLoggedIn ? (
           <button
             onClick={() => {
@@ -99,11 +111,7 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
               className="login-button mobile"
               onClick={closeMobileMenu}
             >
-              <User
-                size={16}
-                className="login-icon"
-                onClick={closeMobileMenu}
-              />
+              <User size={16} className="login-icon" />
               <span>Login</span>
             </Link>
           </>
